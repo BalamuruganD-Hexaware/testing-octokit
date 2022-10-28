@@ -12,6 +12,16 @@ function main() {
   if (process.argv[2] === "delete") {
     deleteRepository(process.argv[3], process.argv[4])
   }
+  if (process.argv[2] === "list") {
+    listOrgRepos()
+  }
+}
+
+async function listOrgRepos () {
+  const response = await octokit.rest.orgs.listForAuthenticatedUser();
+  if (response.status === 200) {
+    console.log(response.data.map(datum => datum.login));
+  }
 }
 
 async function deleteRepository(owner,repo) {
